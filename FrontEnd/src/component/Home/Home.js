@@ -1,0 +1,183 @@
+import React, { useEffect } from "react";
+import { Col, Container, Row, Table, Alert } from "react-bootstrap";
+import { onConnect, checkMetaMaskInstalled, findDay } from "../../reduxModules";
+import { useSelector, useDispatch } from "react-redux";
+import Header from '../Header/Header'
+const Home = (props) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(checkMetaMaskInstalled());
+    dispatch(findDay());
+  }, []);
+  const isInstalled = useSelector((state) => state.isInstalled);
+  const connection = useSelector((state) => state.connection);
+  return (
+    <>
+      <Header />
+      <div className="home commom-bg">
+        {isInstalled ? (
+          ""
+        ) : (
+
+          <Alert className="alert-danger" variant="danger" dismissible>
+            <Container>
+              <div className="d-flex align-items-center justify-content-center">
+                <h6>Please Install MetaMask First </h6>
+              </div>
+            </Container>
+          </Alert>
+        )}
+        {connection ? (
+          ""
+        ) : (
+
+          <Alert className="alert-danger" variant="danger" dismissible>
+            <Container>
+              <div className="d-flex align-items-center justify-content-center">
+
+                <h6>Please Connect To MetaMask</h6>
+                {/* <button
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    dispatch(onConnect());
+                  }}
+                >
+                  Connect
+                </button> */}
+              </div>
+            </Container>
+          </Alert>
+        )}
+        <Container className="padding-container">
+          <div className="heading">
+            <h2>10Pantacles</h2>
+          </div>
+          <Row>
+            <Col md={6} className="home-box">
+              <div className="home-wraper">
+                <div className="content-data">
+                  <p>Current Day:</p>
+                  <p>753</p>
+                </div>
+                <div className="content-data">
+                  <p>Total Supply of MYNT:</p>
+                  <p>0.000 MYNT</p>
+                </div>
+              </div>
+            </Col>
+            <Col md={6} className="home-box">
+              <div className="home-wraper">
+                <div className="content-data">
+                  <p>Total Staked:</p>
+                  <p>--</p>
+                </div>
+                <div className="content-data">
+                  <p>Interest Due:</p>
+                  <p>--</p>
+                </div>
+                <div className="content-data">
+                  <p>Not Staked:</p>
+                  <p>--</p>
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <div className="heading">
+            <h2>Daily Data</h2>
+          </div>
+          <div className="v-card-table">
+            <Table responsive="sm">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Day Payout Total</th>
+                  <th>
+                    T-Shares Total{" "}
+                    <span
+                      aria-hidden="true"
+                      className="v-icon notranslate theme--dark yellow--text"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        data-prefix="fas"
+                        data-icon="question-circle"
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                        className="svg-inline--fa fa-question-circle fa-w-16 v-icon__component theme--dark yellow--text"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"
+                          className=""
+                        ></path>
+                      </svg>
+                    </span>
+                  </th>
+                  <th>Payout per T-Share</th>
+                  <th>
+                    % Gain{" "}
+                    <span
+                      aria-hidden="true"
+                      className="v-icon notranslate theme--dark yellow--text"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        data-prefix="fas"
+                        data-icon="question-circle"
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                        className="svg-inline--fa fa-question-circle fa-w-16 v-icon__component theme--dark yellow--text"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"
+                          className=""
+                        ></path>
+                      </svg>
+                    </span>
+                  </th>
+                  <th>
+                    % APY{" "}
+                    <span
+                      aria-hidden="true"
+                      className="v-icon notranslate theme--dark yellow--text"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        data-prefix="fas"
+                        data-icon="question-circle"
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                        className="svg-inline--fa fa-question-circle fa-w-16 v-icon__component theme--dark yellow--text"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"
+                          className=""
+                        ></path>
+                      </svg>
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colSpan="6">None</td>
+                </tr>
+              </tbody>
+            </Table>
+          </div>
+        </Container>
+      </div>
+    </>
+
+  );
+};
+
+export default Home;
